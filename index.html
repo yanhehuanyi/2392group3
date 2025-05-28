@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Select Dates in 2025</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f2f2f2;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    .date-selectors {
+      margin-bottom: 40px;
+    }
+
+    label {
+      font-size: 16px;
+      margin: 0 10px;
+    }
+
+    input[type="date"] {
+      padding: 5px 10px;
+      font-size: 16px;
+    }
+
+    .selected-output {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .month-section {
+      margin-bottom: 50px;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    .date-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .date-link {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid #555;
+      border-radius: 8px;
+      background-color: #fff;
+      text-decoration: none;
+      color: #000;
+      transition: all 0.2s ease;
+      font-size: 15px;
+    }
+
+    .date-link:hover {
+      background-color: #def6e4;
+      border-color: #4CAF50;
+      color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <h1>Select Any Day in 2025</h1>
+
+  <!-- 🟢 Date Selection Form -->
+  <div class="date-selectors">
+    <label for="date1">Start Date:</label>
+    <input type="date" id="date1" min="2025-01-01" max="2025-12-31">
+
+    <label for="date2">End Date:</label>
+    <input type="date" id="date2" min="2025-01-01" max="2025-12-31">
+
+    <div class="selected-output" id="outputText"></div>
+  </div>
+
+  <!-- 🟢 Dynamic Date Links by Month -->
+  <div id="allMonths"></div>
+
+  <script>
+    // Handle month + day generation
+    const months = [
+      { name: "January", days: 31 },
+      { name: "February", days: 28 },
+      { name: "March", days: 31 },
+      { name: "April", days: 30 },
+      { name: "May", days: 31 },
+      { name: "June", days: 30 },
+      { name: "July", days: 31 },
+      { name: "August", days: 31 },
+      { name: "September", days: 30 },
+      { name: "October", days: 31 },
+      { name: "November", days: 30 },
+      { name: "December", days: 31 }
+    ];
+
+    const monthNames = months.map(m => m.name);
+    const container = document.getElementById("allMonths");
+
+    months.forEach((month, mIndex) => {
+      const section = document.createElement("div");
+      section.className = "month-section";
+
+      const heading = document.createElement("h2");
+      heading.textContent = ${month.name} 2025;
+      section.appendChild(heading);
+
+      const grid = document.createElement("div");
+      grid.className = "date-grid";
+
+      for (let day = 1; day <= month.days; day++) {
+        const link = document.createElement("a");
+        link.className = "date-link";
+        link.href = details.html?date=${month.name}-${day}-2025;
+        link.textContent = ${month.name} ${day}, 2025;
+        grid.appendChild(link);
+      }
+
+      section.appendChild(grid);
+      container.appendChild(section);
+    });
+
+    // Date selector logic
+    const date1 = document.getElementById("date1");
+    const date2 = document.getElementById("date2");
+    const output = document.getElementById("outputText");
+
+    function formatDateToEnglish(dateStr) {
+      if (!dateStr) return "";
+      const date = new Date(dateStr);
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    }
+
+    function updateSelectedOutput() {
+      const d1 = formatDateToEnglish(date1.value);
+      const d2 = formatDateToEnglish(date2.value);
+      if (d1 && d2) {
+        output.textContent = You selected: ${d1} to ${d2};
+      } else {
+        output.textContent = '';
+      }
+    }
+
+    date1.addEventListener("change", updateSelectedOutput);
+    date2.addEventListener("change", updateSelectedOutput);
+  </script>
+</body>
+</html>
